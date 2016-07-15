@@ -3,6 +3,7 @@ package httputil
 import (
 	"crypto/tls"
 	"errors"
+	"log"
 	"net"
 	"net/http"
 	"net/http/cookiejar"
@@ -10,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"common/dlog"
 	"golang.org/x/net/publicsuffix"
 )
 
@@ -50,7 +50,7 @@ func SetCookieJar(client *http.Client) *http.Client {
 	}
 	jar, err := cookiejar.New(&options)
 	if err != nil {
-		dlog.Fatalln(err)
+		log.Panicf(err.Error())
 	}
 	client.Jar = jar
 	return client
@@ -123,7 +123,7 @@ func NewHttpClientWithProxy(timeOutSeconds int, proxy string) *http.Client {
 				c.SetDeadline(deadline)
 				return c, nil
 			},
-			DisableKeepAlives:     false,
+			DisableKeepAlives:     true,
 			ResponseHeaderTimeout: time.Duration(timeOutSeconds) * time.Second,
 			TLSClientConfig:       &tls.Config{InsecureSkipVerify: true},
 			Proxy:                 http.ProxyURL(proxyUrl),
