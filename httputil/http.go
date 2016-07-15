@@ -32,10 +32,10 @@ type HttpUtil struct {
 }
 
 type HttpResponse struct {
-	Status  int
-	Html    string
-	Header  http.Header
-	Cookies []*http.Cookie
+	Status  int            `json:"status,omitempty"`
+	Html    string         `json:"html,omitempty"`
+	Header  http.Header    `json:"header,omitempty"`
+	Cookies []*http.Cookie `json:"cookies,omitempty"`
 }
 
 func NewHttpResponse() *HttpResponse {
